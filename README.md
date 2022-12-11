@@ -2,3 +2,4 @@
 Collection of small projects hosted directly on Github
 
 1. [Hangman](https://dominikfischer86.github.io/hangman/)
+2. [Snek!](https://dominikfischer86.github.io/snek/)
