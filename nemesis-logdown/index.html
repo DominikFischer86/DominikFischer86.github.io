@@ -192,7 +192,7 @@
       <div id="reading-progress">
         Lesefortschritt: <span id="readingProgress">0</span>%
       </div>
-      <audio autoplay loop controls id="musicPlayer" src="./background-music.mp3"></audio>
+      <audio loop controls id="musicPlayer" src="./background-music.mp3"></audio>
     </nav>
     
     <div id="chapterContent"></div>
@@ -253,8 +253,8 @@
       .catch(error => console.error('Error fetching JSON:', error));
   }
 
-  function setInitialVolume() {
-    document.getElementById('musicPlayer').volume = 0.2;
+  function setInitialVolume(value) {
+    document.getElementById('musicPlayer').volume = value;
   }
 
   const chapterContent = document.getElementById('chapterContent');
@@ -272,7 +272,7 @@
   // Initialize
   document.addEventListener('DOMContentLoaded', function() {
     fetchChapter();
-    setInitialVolume();
+    setInitialVolume(0.5);
   });
 </script>
 </html>
