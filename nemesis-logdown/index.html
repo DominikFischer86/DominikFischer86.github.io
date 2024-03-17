@@ -161,7 +161,8 @@
       }
 
       section {
-        max-width: 100%;
+        max-width: calc(100% - 20px);
+        padding: 0 10px;
       }
 
       #chapterContent {
@@ -219,7 +220,7 @@
             history.pushState({}, '', url);
           } else {
             updateChapter(selectedChapter);
-            const url = new URL(window.location.href);
+            const url = new URL(window.location.href + '/nemesis-logdown');
             url.searchParams.set('chapter', selectedChapter);
             history.pushState({}, '', url);
             }
