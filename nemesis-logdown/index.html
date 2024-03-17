@@ -215,7 +215,7 @@
           const selectedChapter = event.target.value;
 
           if (!selectedChapter) {
-            const url = new URL(window.location.origin + '/index.html');
+            const url = new URL(window.location.origin + 'nemesis-logdown/index.html');
             history.pushState({}, '', url);
           } else {
             updateChapter(selectedChapter);
