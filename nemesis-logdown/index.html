@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nemesis:Logdown</title>
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <style>
+    @font-face {
+      font-family: "OCR-A";
+      src: 
+          url('assets\OCRA-font.ttf') format('truetype');
+    }
+
+    body {
+      min-height: 100vh;
+      background: url('/assets/background-image.jpg') no-repeat #000;
+      background-size: cover;
+      color: #ccc;
+      box-sizing: border-box;
+      padding: 0;
+      padding-top: 20px;
+      margin: 0;
+      font-size: 24px;
+      font-family: Calibri, Tahoma, sans-serif;
+    }
+
+    section {
+      width: 960px;
+      padding: 20px;
+      margin: 0 auto;
+      background: rgba(0,0,0, .8);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: inset 0 0 10px rgb(176,255,0);
+      padding: 20px;
+    }
+
+    h1 {
+      text-transform: uppercase;
+      text-shadow: rgb(176,255,0) 0 0 20px;
+      color: #fff;
+      text-align: center;
+      margin: 0 0 20px 0;
+    }
+
+    nav select {
+      background: rgb(210, 240, 186);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgb(176,255,0);
+      font-size: 20px;
+      padding: 10px;
+    }
+
+    nav option {
+      background: #fff;
+    }
+
+    #reading-progress {
+      text-shadow: rgb(176,255,0) 0 0 20px;
+      color: #fff;
+    }
+
+    #reading-progress span {
+      display: inline-block;
+      text-align: right;
+      min-width: 36px;
+    }
+
+    audio {
+      max-width: 150px;
+      box-shadow: 0 0 18px rgb(176,255,0);
+      border-radius: 50px;
+      max-height: 47px;
+    }
+
+    audio::-webkit-media-controls-panel {
+      background: rgb(210, 240, 186);
+    }
+
+    audio::-webkit-media-controls-mute-button, 
+    audio::-webkit-media-controls-play-button
+     {
+      background-color: #4d9c41;
+      border-radius: 50%;
+    }
+    
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display,
+    audio::-webkit-media-controls-timeline,
+    audio::-webkit-media-controls-options {
+      display: none;
+    }
+
+    #chapterContent {
+      overflow-y: scroll;
+      max-height: calc(100vh - 300px);
+      margin-top: 20px;
+    }
+
+    #chapterContent::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 8px rgba(green, 0.25);
+        -webkit-box-shadow: inset 0 0 8px rgba(green, 0.25);
+        background-color: rgba(#000, 0.25);
+    }
+
+    #chapterContent::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #chapterContent::-webkit-scrollbar-thumb {
+        background-color: #fff;
+        background-image: -webkit-gradient(
+            linear,
+            40% 0%,
+            75% 84%,
+            from(#4d9c41),
+            to(#164b0e),
+            color-stop(0.6, #54de5d)
+        );
+    }
+
+    footer {
+      margin: 0 auto;
+      max-width: 960px;
+      padding: 20px;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      text-shadow: 0 0 4px #000;
+    }
+
+    @media only screen and (max-width: 768px) {
+      body {
+        font-size: 18px; /* Further reduce font size for even smaller screens */
+        background-position: center center;
+        padding: 0;
+      }
+
+      h1 {
+        font-size: 20px; /* Further reduce font size for even smaller screens */
+      }
+
+      nav {
+        flex-direction: column; /* Stack navigation items vertically on smaller screens */
+        align-items: center; /* Align navigation items to the start on smaller screens */
+        gap: 10px;
+      }
+
+      audio {
+        max-height: 40px;
+      }
+
+      nav select {
+        font-size: 16px;
+        padding: 4px;
+      }
+
+      section {
+        max-width: 100%;
+      }
+
+      #chapterContent {
+        max-height: calc(100vh - 272px);
+        margin-top: 20px;
+      }
+
+      footer {
+        flex-direction: column; /* Stack navigation items vertically on smaller screens */
+        align-items: center; /* Align navigation items to the start on smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <h1>Nemesis:Logdown</h1>
+    <nav>
+      <div className="story-selector">
+        <select id="chapterSelect">
+          <option value="">--Wähle ein Kapitel:--</option>
+        </select>
+      </div>
+      <div id="reading-progress">
+        Lesefortschritt: <span id="readingProgress">0</span>%
+      </div>
+        <audio autoplay loop controls id="musicPlayer" src="assets\background-music.mp3"></audio>
+    </nav>
+    
+    <div id="chapterContent"></div>
+  </section>
+  <footer>
+    <a href="https://awakenrealms.com/" target="_blank">Game and Artwork by Awaken Realms</a>
+    <a href="https://pixabay.com/users/dstechnician-26430546/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=121196" target="_blank">Song "Desolate World" by DSTechnician</a>
+  </footer>
+</body>
+<script>
+  function fetchChapter(){
+    fetch('data/content.json')
+      .then(response => response.json())
+      .then(data => {
+        const chapterSelect = document.getElementById('chapterSelect');
+        data.forEach(chapter => {
+          const option = document.createElement('option');
+          option.value = chapter.chapter;
+          option.textContent = chapter.chapter;
+          chapterSelect.appendChild(option);
+        })
+
+        chapterSelect.addEventListener('change', (event) => {
+          const selectedChapter = event.target.value;
+
+          if (!selectedChapter) {
+            const url = new URL(window.location.origin + '/index.html');
+            history.pushState({}, '', url);
+          } else {
+            updateChapter(selectedChapter);
+            const url = new URL(window.location.href);
+            url.searchParams.set('chapter', selectedChapter);
+            history.pushState({}, '', url);
+            }
+        })
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const chapterParam = urlParams.get('chapter');
+
+        if (chapterParam) {
+          chapterSelect.value = chapterParam;
+          updateChapter(chapterParam);
+        }
+      })
+      .catch(error => console.error('Error fetching chapters JSON:', error))
+  }
+
+  function updateChapter(chapter) {
+    const jsonFile = `/data/content.json`;
+    fetch(jsonFile)
+      .then(response  => response.json())
+      .then(data => {
+        const selectedContent = data.find(item => item.chapter === chapter)
+        const parser = new DOMParser();
+        const parsedContent = parser.parseFromString(selectedContent.content, 'text/html').body.innerHTML;
+        document.getElementById('chapterContent').innerHTML = parsedContent;
+      })
+      .catch(error => console.error('Error fetching JSON:', error));
+  }
+
+  function setInitialVolume() {
+    document.getElementById('musicPlayer').volume = 0.2;
+  }
+
+  const chapterContent = document.getElementById('chapterContent');
+
+  chapterContent.addEventListener('scroll', () => {
+    const scrollTop = chapterContent.scrollTop;
+    const scrollHeight = chapterContent.scrollHeight - chapterContent.clientHeight;
+    const scrolledPercentage = (scrollTop / scrollHeight) * 100;
+
+    const displayPercentage = document.getElementById('readingProgress');
+
+    displayPercentage.innerHTML = Math.round(scrolledPercentage);
+  })
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', function() {
+    fetchChapter();
+    setInitialVolume();
+  });
+</script>
+</html>
