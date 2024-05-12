@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foto-Vote</title>
+</head>
+<script>
+  const images = [{
+      id: 1,
+      url: 'images/01.jpg'
+    },
+    {
+      id: 2,
+      url: 'images/02.jpg'
+    },
+    {
+      id: 3,
+      url: 'images/03.jpg'
+    },
+    {
+      id: 4,
+      url: 'images/04.jpg'
+    },
+    {
+      id: 5,
+      url: 'images/05.jpg'
+    },
+    {
+      id: 6,
+      url: 'images/06.jpg'
+    },
+    {
+      id: 7,
+      url: 'images/07.jpg'
+    },
+    {
+      id: 8,
+      url: 'images/08.jpg'
+    },
+    {
+      id: 9,
+      url: 'images/09.jpg'
+    },
+    {
+      id: 10,
+      url: 'images/10.jpg'
+    }
+  ];
+
+  function addImages() {
+    const imageSection = document.getElementById('imageSection');
+    images.forEach(image => {
+      const imageContainer = document.createElement('div');
+      imageContainer.classList.add('image-container');
+      const anchorTag = document.createElement('a'); // Create anchor tag
+      anchorTag.href = image.url; // Set the href attribute to image URL
+      anchorTag.target = '_blank'; // Open link in a new tab
+      const img = document.createElement('img');
+      img.src = image.url;
+      img.alt = `Image ${image.id}`;
+      anchorTag.appendChild(img); // Append image to anchor tag
+      const idText = document.createElement('p'); // Create paragraph element for ID
+      idText.textContent = image.id; // Set the text content to image ID
+      imageContainer.appendChild(anchorTag); // Append anchor tag to image container
+      imageContainer.appendChild(idText); // Append ID text to image container
+      imageSection.appendChild(imageContainer);
+    });
+  }
+
+  // Call the function to add images when the page loads
+  window.onload = addImages;
+</script>
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: Impact, Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  section {
+    background: #ddd;
+    height: 100vh;
+    padding: 20px;
+  }
+
+    /* CSS for the grid layout */
+    #imageSection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+    grid-gap: 10px;
+    justify-items: center;
+  }
+
+    /* Responsive layout */
+    @media screen and (max-width: 1440px) {
+    #imageSection {
+      grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+    }
+  }
+
+  /* Responsive layout */
+  @media screen and (max-width: 960px) {
+    #imageSection {
+      grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    #imageSection {
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+  }
+  /* Optional CSS for styling */
+  .image-container {
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+    height: 400px; /* Set a fixed height for consistent cropping */
+    overflow: hidden; /* Hide overflowing content */
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+  }
+
+  .image-container p {
+    position: absolute;
+    z-index: 2;
+    text-shadow: 0 0 5px #000;
+    color: #fff;
+    font-size: 80px;
+    margin: 0;
+    bottom: 0;
+    right: 10px;
+    opacity: .5;
+  }
+</style>
+<body>
+  <section id="imageSection">
+  </section>
+ 
+</body>
+</html>
