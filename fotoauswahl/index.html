@@ -53,22 +53,20 @@
     images.forEach(image => {
       const imageContainer = document.createElement('div');
       imageContainer.classList.add('image-container');
-      const anchorTag = document.createElement('a'); // Create anchor tag
-      anchorTag.href = image.url; // Set the href attribute to image URL
-      anchorTag.target = '_blank'; // Open link in a new tab
+      const anchorTag = document.createElement('a'); 
+      anchorTag.href = image.url;
+      anchorTag.target = '_blank'; 
       const img = document.createElement('img');
       img.src = image.url;
       img.alt = `Image ${image.id}`;
-      anchorTag.appendChild(img); // Append image to anchor tag
-      const idText = document.createElement('p'); // Create paragraph element for ID
-      idText.textContent = image.id; // Set the text content to image ID
-      imageContainer.appendChild(anchorTag); // Append anchor tag to image container
-      imageContainer.appendChild(idText); // Append ID text to image container
+      anchorTag.appendChild(img); 
+      const idText = document.createElement('p');
+      idText.textContent = image.id; 
+      imageContainer.appendChild(anchorTag);
+      imageContainer.appendChild(idText); 
       imageSection.appendChild(imageContainer);
     });
   }
-
-  // Call the function to add images when the page loads
   window.onload = addImages;
 </script>
 <style>
@@ -76,15 +74,13 @@
     padding: 0;
     margin: 0;
     font-family: Impact, Tahoma, Geneva, Verdana, sans-serif;
+    background: #ddd;
   }
 
   section {
-    background: #ddd;
-    height: 100vh;
     padding: 20px;
   }
 
-    /* CSS for the grid layout */
     #imageSection {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
@@ -92,14 +88,12 @@
     justify-items: center;
   }
 
-    /* Responsive layout */
     @media screen and (max-width: 1440px) {
     #imageSection {
       grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
     }
   }
 
-  /* Responsive layout */
   @media screen and (max-width: 960px) {
     #imageSection {
       grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
@@ -111,19 +105,17 @@
       grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
     }
   }
-  /* Optional CSS for styling */
+
   .image-container {
-    margin-top: 10px;
     position: relative;
     width: 100%;
-    height: 400px; /* Set a fixed height for consistent cropping */
-    overflow: hidden; /* Hide overflowing content */
+    overflow: hidden;
   }
 
   .image-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+    object-fit: cover;
   }
 
   .image-container p {
@@ -139,8 +131,6 @@
   }
 </style>
 <body>
-  <section id="imageSection">
-  </section>
- 
+  <section id="imageSection"></section>
 </body>
 </html>
