@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hamburg Karte</title>
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <section id="map_location_wrapper" data-src="hamburg">
+    <div id="map_sheet" style="display: block; cursor: grab; user-select: none; will-change: transform; background-repeat: no-repeat;"></div>
+    <div id="map_panel">
+        <div class="map_panel_header">
+          <button id="close_panel">
+            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12H3M3 12l7-7M3 12l7 7"/>
+            </svg>
+        </button>
+          <h2 id="panel_title"></h2>
+        </div>
+        <div class="map_panel_content_wrapper">
+          <h3>Name:</h3>
+          <p id="panel_name"></p>
+          <h3>Beschreibung:</h3>
+          <p id="panel_desc"></p>
+        </div>
+    </div>
+  </section>
+  <script src="assets/map.js"></script>
+</body>
+</html>
