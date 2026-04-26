@@ -3,7 +3,7 @@ const debug = false;
 // const map = "wien"; // "wien, hamburg, hamburg2"
 const path = "./assets/";
 const mapUrlHamburg = { src: path + "map_hamburg.png", width: '1659px', height: '1338px' };
-const mapUrlHamburg2 = { src:  path + "map_hamburg_2.png", width: '1473px', height: '856px'};
+const mapUrlHamburg2 = { src:  path + "map_hamburg_2.png", width: '2184px', height: '1452px'};
 const mapUrlWien = { src: path + "map_wien.png", width: '1471px', height: '890px' };
 const pinBar =  path + "icon_bar.svg";
 const pinChurch =  path + "icon_church.svg";
@@ -70,8 +70,8 @@ const pins = [
   },
   // Hamburg 2 pins
   {
-    x: 720,
-    y: 390,
+    x: 560,
+    y: 610,
     icon: pinHome,
     color: "#b2b62b",
     name: "Hendriksson Gestüt",
@@ -98,8 +98,8 @@ const pins = [
     onMap: "wien"
   },
   {
-    x: 445,
-    y: 650,
+    x: 850, // 850
+    y: 420, // 420
     icon: pinTheatre,
     color: "#6c1341",
     name: "Ronacher Theater",
@@ -107,8 +107,8 @@ const pins = [
     onMap: "wien"
   },
   {
-    x: 850,
-    y: 420,
+    x: 445, // 445
+    y: 650, // 650
     icon: pinTheatre,
     color: "#6c1341",
     name: "Raimund Theater",
@@ -209,6 +209,43 @@ function endDrag() {
   sheet.style.cursor = "grab";
 };
 
+// Sichtfeld initial auf Position festlegen
+
+function centerOn(x, y) {
+  const wrapperRect = wrapper.getBoundingClientRect();
+
+  let newX = wrapperRect.width / 2 - x;
+  let newY = wrapperRect.height / 2 - y;
+
+  const clamped = clampPosition(newX, newY);
+
+  currentX = clamped.x;
+  currentY = clamped.y;
+
+  sheet.style.transform = `translate(${currentX}px, ${currentY}px)`;
+}
+
+function clampPosition(x, y) {
+  const wrapperRect = wrapper.getBoundingClientRect();
+
+  const maxX = 0;
+  const maxY = 0;
+  const minX = wrapperRect.width - sheet.offsetWidth;
+  const minY = wrapperRect.height - sheet.offsetHeight;
+
+  return {
+    x: Math.min(maxX, Math.max(minX, x)),
+    y: Math.min(maxY, Math.max(minY, y))
+  };
+}
+
+// Startposition setzen
+const start = clampPosition(-400, -200);
+currentX = start.x;
+currentY = start.y;
+
+sheet.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
 // Maus Events
 sheet.addEventListener("mousedown", startDrag);
 window.addEventListener("mousemove", drag);
@@ -272,6 +309,12 @@ function closePanel() {
 }
 
 closeBtn.addEventListener("click", closePanel);
+
+window.addEventListener('load', () => {
+  if (map === 'hamburg') centerOn(0, 900);
+  if (map === 'hamburg2') centerOn(600, 600);
+  if (map === 'wien') centerOn(200, 450);
+});
 
 // Pin Locator
 sheet.addEventListener('contextmenu', (e) => {
